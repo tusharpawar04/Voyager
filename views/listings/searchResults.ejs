@@ -1,0 +1,111 @@
+<style>
+.search-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.query-highlight {
+  color: #28a745;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.listing-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+  border: none;
+  border-radius: 12px;
+}
+
+.listing-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.card-text .withoutGST {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #28a745;
+}
+
+.link-show {
+  text-decoration: none;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.text-dark:hover {
+  color: #28a745;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #ddd;
+  margin: 0.5rem 0;
+}
+
+.mb-5 {
+  margin-bottom: 5rem;
+}
+
+
+</style>
+
+
+<% layout("/layouts/boilerplate") %>
+
+<div class="container my-5">
+  <!-- Search Results Header -->
+  <div class="row justify-content-center text-center mb-4">
+    <div class="col-md-8">
+      <h1 class="search-title">Search Results</h1>
+      <p class="lead">Showing results for: <span class="query-highlight">"<%= query %>"</span></p>
+      <p class="text-muted">
+        <% if (listings.length === 0) { %>
+          No results found. Please try a different search term.
+        <% } else { %>
+          Found <strong><%= listings.length %></strong> listings matching your search.
+        <% } %>
+      </p>
+    </div>
+  </div>
+
+  <!-- Results Grid -->
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
+    <% listings.forEach(listing => { %>
+      <div class="col">
+        <a href="/listings/<%= listing._id %>" class="link-show text-decoration-none text-dark">
+          <div class="card listing-card shadow-sm h-100">
+            <img
+              src="<%= listing.image.url %>"
+              class="card-img-top rounded-top"
+              alt="<%= listing.title %>"
+              style="height: 250px; object-fit: cover;"
+            />
+            <div class="card-body">
+              <h5 class="card-title text-center mb-2"><%= listing.title %></h5>
+              <hr class="my-2">
+              <p class="card-text text-center">
+                <span class="withoutGST text-muted">
+                  ₹<%= listing.price.toLocaleString("en-IN") %>/night
+                </span>
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<!-- Adding some space at the bottom -->
+<div class="mb-5"></div>
+

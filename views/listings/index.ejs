@@ -1,0 +1,113 @@
+<% layout("/layouts/boilerplate") %>
+<body>
+  <style>
+    #filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter {
+      margin-top: 2rem;
+      margin-right: 2rem;
+      text-align: center;
+      opacity: 0.8;
+    }
+    .filter:hover {
+      opacity: 1.5;
+      cursor: pointer;
+    }
+    .filter p {
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    .tax-info {
+      display: none;
+    }
+    .tax-toggle {
+      display: flex;
+      border-radius: 1rem;
+      border: 2px solid lightgray;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+    }
+    .withGST {
+      display: none;
+    }
+    .withoutGST {
+      display: inline;
+    }
+
+    /* Animation styles */
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+
+  <div id="filters">
+    <div class="tax-toggle">
+      <div class="form-check-reverse form-switch">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Display Total after Taxes</label>
+        <input
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="flexSwitchCheckDefault"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+    <% for(let listing of allList){ %>
+    <a href="/listings/<%= listing._id %>" class="link-show">
+      <div class="card col listing-card">
+        <img
+          src="<%= listing.image.url %>"
+          class="card-img-top"
+          alt="listing_jpg"
+          style="height: 20rem"
+        />
+        <div class="card-img-overlay"></div>
+        <div class="card-body">
+          <p class="card-text">
+            <b><%= listing.title %><br /></b>
+            <span class="withGST">
+              &#8377;<%= (listing.price * 0.28 + listing.price).toLocaleString("en-IN") %>/night
+            </span>
+            <span class="withoutGST">
+              &#8377;<%= listing.price.toLocaleString("en-IN") %>/night
+            </span>
+          </p>
+        </div>
+      </div>
+    </a>
+    <% } %>
+  </div>
+
+  <script>
+    document.getElementById("flexSwitchCheckDefault").addEventListener("change", function () {
+      const showGST = this.checked;
+      const withGSTElements = document.getElementsByClassName("withGST");
+      const withoutGSTElements = document.getElementsByClassName("withoutGST");
+
+      for (let i = 0; i < withGSTElements.length; i++) {
+        withGSTElements[i].style.display = showGST ? "inline" : "none";
+        withGSTElements[i].classList.add("fade-in");  // Add animation class
+      }
+
+      for (let i = 0; i < withoutGSTElements.length; i++) {
+        withoutGSTElements[i].style.display = showGST ? "none" : "inline";
+        withoutGSTElements[i].classList.add("fade-in");  // Add animation class
+      }
+    });
+  </script>
+</body>
