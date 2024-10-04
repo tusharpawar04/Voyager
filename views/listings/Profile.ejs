@@ -1,0 +1,119 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+    body {
+        background-color: #f0f4f8; /* Light background for a fresh look */
+        font-family: 'Arial', sans-serif; /* Clean font */
+        color: #333; /* Default text color */
+    }
+
+    .container {
+        margin-top: 30px;
+        max-width: 800px; /* Limit container width */
+    }
+
+    .profile-card {
+        background: #78dff1; /* Gradient background */
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
+        text-align: center; /* Centering text */
+    }
+
+    .profile-card h2 {
+        margin-bottom: 20px;
+        color: #fff; /* White text for contrast */
+        font-size: 30px; /* Increased font size */
+    }
+
+    .profile-card h4 {
+        margin: 10px 0; /* Space around username */
+        font-size: 26px; /* Slightly larger font size */
+        color: #ffffff; /* Bright color for username */
+    }
+
+    .profile-info {
+        margin: 10px 0;
+        font-size: 18px; /* Consistent font size */
+        color: #fff; /* White color for profile info */
+    }
+
+    .profile-info strong {
+        color: #ffffff; /* Strong label color */
+    }
+
+    .listing-card {
+        background: #ffffff; /* White background for listings */
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: transform 0.2s, box-shadow 0.2s; /* Smooth transition */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .listing-card:hover {
+        transform: translateY(-5px); /* Lift effect on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .listing-card h4 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: #007bff; /* Blue color for titles */
+    }
+
+    .listing-card p {
+        margin: 5px 0;
+        color: #666; /* Softer color for description */
+    }
+
+    .btn-view {
+        display: inline-block;
+        margin-top: 10px;
+        font-size: 14px;
+        background-color: #007bff; /* Blue background */
+        color: #fff; /* White text */
+        border-radius: 5px; /* Rounded corners */
+        padding: 8px 15px; /* Padding for button */
+        text-decoration: none; /* Remove underline */
+        transition: background-color 0.3s; /* Smooth background color change */
+    }
+
+    .btn-view:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+    }
+
+    .alert-warning {
+        background-color: #fff3cd; /* Alert background color */
+        border-color: #ffeeba; /* Alert border color */
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="profile-card">
+            <h2>Profile Information</h2>
+            <h4><i class="fa fa-user-circle" aria-hidden="true"></i> <%= currentUser.username %></h4>
+            <p class="profile-info"><strong>Email:</strong> <%= currentUser.email %></p>
+        </div>
+
+        <h3>Your Listings</h3>
+        <% if (listings.length > 0) { %>
+            <% listings.forEach((listing) => { %>
+                <div class="listing-card">
+                    <h4><%= listing.title %></h4>
+                    <p><%= listing.description.substring(0, 100) %>...</p> <!-- Shorten description -->
+                    <p>Price: $<%= listing.price %></p>
+                    <a href="/listings/<%= listing._id %>" class="btn btn-primary btn-view">View Listing</a>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div class="alert alert-warning">You have no listings yet.</div>
+             <a class="btn btn-dark edit-btn" href="/listings/create">Create Now</a>
+        <% } %>
+        <br>
+        <br>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>

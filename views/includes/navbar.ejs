@@ -1,47 +1,109 @@
 <style>
-  .btn-search{
+  .btn-search {
     background-color: #90e0ef;
-     border-radius:100% ;
-     color:rgb(12, 12, 13)
+    border-radius: 100%;
+    color: rgb(12, 12, 13);
   }
-  .btn-search:hover{
+  .btn-search:hover {
     background-color: #90e0ef;
   }
-  .search-inp{
+  .search-inp {
     border-radius: 25px;
     font-size: 0.8rem;
   }
+  /* Dropdown on hover */
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+  margin-top: 0; /* Optional: Adjust the spacing */
+}
+
+.nav-item.dropdown-toggle::after {
+  display: none; /* Hide the default caret if needed */
+}
+
+/* Optional: Styling to smooth the transition */
+.dropdown-menu {
+  transition: all 0.3s ease-in-out;
+}
+
 </style>
 
 <nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/listings/home"><i class="fa-solid fa-spa" id="home"></i></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" href="/listings">Explore</a>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/listings/home"
+      ><i class="fa-solid fa-spa" id="home"></i
+    ></a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listings">Explore</a>
+      </div>
+
+      <form class="d-flex ms-auto" action="/listings/search" method="GET">
+        <input
+          class="form-control me-2 search-inp"
+          type="search"
+          name="query"
+          placeholder="voyage destinations.."
+          aria-label="Search"
+        />
+        <button class="btn btn-search" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listings/create">Voyage your home</a>
+
+        <% if (currentUser) { %>
+        <!-- Profile Dropdown -->
+        <div class="nav-item dropdown">
+          <!-- Profile Dropdown with Font Awesome -->
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle d-flex align-items-center"
+              href="#"
+              id="profileDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fas fa-user-circle me-2" style="font-size: 1.5rem"></i>
+              <span><%= currentUser.username %></span>
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="profileDropdown"
+            >
+              <li>
+                <a class="dropdown-item" href="/Profile">Profile</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item" href="/logout">Logout</a>
+              </li>
+            </ul>
+          </li>
         </div>
-
-        <form class="d-flex ms-auto" action="/listings/search" method="GET">
-          <input class="form-control me-2 search-inp" type="search" name="query" placeholder="voyage destinations.." aria-label="Search">
-          <button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-        </form>
-
-        <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="/listings/create">Voyage your home</a>
-         
-          <% if(!currentUser){ %>
-          <a class="nav-link active" aria-current="page" href="/signup"><b>Signup</b></a>
-          <a class="nav-link" href="/login"><b>Login</b></a>
-          <%}%> <% if(currentUser) { %>
-          <a class="nav-link" href="/logout">Logout</a>
-            <%  }%>
-
-        </div>
+        <% } else { %>
+        <a class="nav-link active" aria-current="page" href="/signup"
+          ><b>Signup</b></a
+        >
+        <a class="nav-link" href="/login"><b>Login</b></a>
+        <% } %>
       </div>
     </div>
-    
-  </nav>
- 
+  </div>
+</nav>
